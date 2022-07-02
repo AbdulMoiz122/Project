@@ -1,0 +1,39 @@
+import os
+path = r"C:\Users\Umer.Yasin\Downloads\Wikipedia"
+articles_path = [os.path.join(path,name) for name in os.listdir(path)]
+All_articles = []
+for path in articles_path:
+    with open(path, 'r' , encoding = "ISO-8859-1") as f:
+        file = f.readlines()
+        All_articles.append(file) 
+All_articles
+String_articles = ' '.join(map(str, All_articles))
+String_articles
+%pip install nltk
+import nltk
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+Text_data = word_tokenize(String_articles)
+Data = [word for word in Text_data if not word in stopwords.words()]
+print(Data)
+import re
+remove_punct = re.sub(r'[^\w\s]', '', String_articles)
+remove_punc = re.sub('[^a-z A-Z]+', '', String_articles)
+remove_punc
+from sklearn.feature_extraction.text import TfidVectorizer
+from sklearn.cluster import KMeans
+from sklearn.metrics import adjusted_rand_score
+df = TfidVectorizer(stop_words = 'english')
+makingClusters = df.fit_transform(Data)
+cluster = 5
+example = KMeans(n_clusters=cluster, init;'k-means++', max_iter=100, n_init=1)
+example.fit(makingClusters)
+print("Clusters -> ")
+order_centroids = example.cluster_centers_.argsort()[:, ::-1]
+C= df.get_feature_names()
+for i in range(cluster):
+    print("Cluster %d:" % i),
+    for j in order_centroids[i, :20]:
+        print(' %s' % C[j])
